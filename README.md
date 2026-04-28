@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-[Скрин](screenshots/todo-list.png)
+[Скрин интерфейса](screenshots/todo-list.png)
 
 ## About Laravel
 
