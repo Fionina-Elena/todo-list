@@ -38,6 +38,8 @@
               Редактировать</button>
             <button @click="showModal('destroy', task)" class="btn btn-danger btn-sm">
               Удалить</button>
+            <button @click="showModal('view', task)" class="btn btn-info btn-sm">
+              Просмотр</button>
           </div>
         </td>
       </tr>
@@ -118,6 +120,29 @@
     </MDBModalFooter>
   </MDBModal>
 
+  <MDBModal id="viewModal" tabindex="-1" labelledby="viewModalLabel" v-model="viewModal">
+    <MDBModalHeader>
+      <MDBModalTitle id="viewModalLabel"> Просмотр задачи </MDBModalTitle>
+    </MDBModalHeader>
+    <MDBModalBody>
+      <form style="font-family: 'Times New Roman', Times, serif;">
+        <div v-if="currentTask">
+          <strong>Название: </strong>{{ currentTask.title }}
+          <br>
+          <strong>Описание: </strong>{{ currentTask.description }}
+          <br>
+          <strong>Статус: </strong>{{ statusTask(currentTask.status) }}
+          <div class="mt-2 text-muted small">
+            Создано: {{ currentTask.created_at }}
+          </div>
+        </div>
+      </form>
+    </MDBModalBody>
+    <MDBModalFooter>
+      <MDBBtn color="secondary" @click="closeModal('view')">Закрыть</MDBBtn>
+    </MDBModalFooter>
+  </MDBModal>
+
   <MDBModal id="destroyModal" tabindex="-1" labelledby="destroyModalLabel" v-model="destroyModal">
     <MDBModalHeader>
       <MDBModalTitle>
@@ -166,6 +191,7 @@ export default {
       tasks: [],
       createModal: false,
       updateModal: false,
+      viewModal: false,
       destroyModal: false,
       errors: null,
       currentTask: null,
@@ -206,6 +232,11 @@ export default {
           this.currentTask = task;
         }
         this.updateModal = true;
+      } else if (modal === 'view') {
+        if (task !== null) {
+          this.currentTask = task;
+        }
+        this.viewModal = true;
       } else if (modal === 'destroy') {
         if (task !== null) {
           this.currentTask = task;
@@ -219,6 +250,8 @@ export default {
         this.createModal = false;
       } else if (modal === 'update') {
         this.updateModal = false;
+      } else if (modal === 'view') {
+        this.viewModal = false;
       } else if (modal === 'destroy') {
         this.destroyModal = false;
       }
@@ -244,7 +277,7 @@ export default {
           });
       }
       else if (modal === 'update') {
-        axios.patch("/api/tasks/" + vue.currentTask.id, vue.currentTask)
+        axios.put("/api/tasks/" + vue.currentTask.id, vue.currentTask)
           .then(function (response) {
             vue.tasks = response.data.tasks;
             vue.closeModal('update');
@@ -255,8 +288,7 @@ export default {
               vue.errors = error.response.data.errors;
             }
           });
-      }
-      else if (modal === 'destroy') {
+      } else if (modal === 'destroy') {
         axios.delete("/api/tasks/" + vue.currentTask.id)
           .then(function (response) {
             vue.tasks = response.data.tasks;

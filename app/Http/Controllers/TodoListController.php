@@ -39,6 +39,16 @@ class TodoListController extends Controller
         return $this->getResponse();
     }
 
+    public function show(int $id): JsonResponse
+    {
+        $task = TodoList::findOrFail($id);
+
+        return response()->json([
+            'status' => true,
+            'task' => $task
+        ]);
+    }
+
     public function destroy(int $id): JsonResponse
     {
         $task = TodoList::findOrFail($id);
