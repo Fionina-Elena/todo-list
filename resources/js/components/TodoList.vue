@@ -34,12 +34,13 @@
         <td>{{ task.updated_at }}</td>
         <td>
           <div class="btn-group" role="group" aria-label="Basic example">
-            <button @click="showModal('update', task)" class="btn btn-warning btn-sm">
-              Редактировать</button>
-            <button @click="showModal('destroy', task)" class="btn btn-danger btn-sm">
-              Удалить</button>
-            <button @click="showModal('view', task)" class="btn btn-info btn-sm">
-              Просмотр</button>
+            <button @click="showModal('update', task)" class="border-0 bg-transparent">
+              <i class="fa-solid fa-pen-to-square fa-xl" style="color: rgb(255, 212, 59);"></i>
+            </button>
+            <button @click="showModal('destroy', task)" class="border-0 bg-transparent">
+              <i class="fa-solid fa-trash fa-lg" style="color: rgb(255, 59, 59);"></i></button>
+            <button @click="showModal('view', task)" class="border-0 bg-transparent">
+              <i class="fa-solid fa-eye fa-lg" style="color: rgb(116, 192, 252);"></i></button>
           </div>
         </td>
       </tr>
@@ -159,8 +160,8 @@
       </form>
     </MDBModalBody>
     <MDBModalFooter>
-      <MDBBtn class="btn-cancel" style="color: gray" @click="closeModal('destroy')">Отменить</MDBBtn>
-      <MDBBtn class="btn-delete" style="color: red" @click="save('destroy')">Удалить</MDBBtn>
+      <MDBBtn color="secondary" @click="closeModal('destroy')">Отменить</MDBBtn>
+      <MDBBtn color="danger" @click="save('destroy')">Удалить</MDBBtn>
     </MDBModalFooter>
   </MDBModal>
 </template>
